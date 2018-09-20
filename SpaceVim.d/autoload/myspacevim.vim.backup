@@ -1,0 +1,187 @@
+"
+" BEFORE
+"
+
+function! myspacevim#before() abort " {{{
+
+
+" Set default clipboard to system's selection clipboard
+set clipboard=unnamed
+
+" search path
+set path=$PWD/**
+
+" gui font
+set guifont=DroidSansMono\ Nerd\ Font\ Mono\ 11
+
+" line ctx
+set scrolloff=8
+
+" wildignore
+set wildignore+=*.o,*.pyc
+
+" wildmode
+set wildmode=list:longest,longest,full
+
+" default indentation
+setglobal smarttab
+setglobal expandtab
+setglobal shiftwidth=4
+setglobal softtabstop=4
+setglobal tabstop=17
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" Enable mouse everywhere
+set mouse=ar
+
+" Enable sounds
+set errorbells
+set visualbell
+
+" fileformats (used for line endings)
+set fileformat=unix
+set fileformats=unix,dos,mac
+
+" Linebreak on 500 characters
+set linebreak
+set textwidth=500
+set wrap
+
+" neomake
+let g:spacevim_enable_neomake = 1
+let g:spacevim_lint_on_the_fly = 0
+let g:neomake_place_signs = 1
+let g:neomake_open_list = 0
+
+" Disable python linting
+let g:neomake_python_enabled_makers = []
+
+" file manager
+let g:vimfiler_as_default_explorer = 1
+" autocmd BufEnter * if bufname("") !~ "^[A-Za-z0-9]*://" | lcd %:p:h | endif
+let g:airline_powerline_fonts = 1
+
+" c-support
+let g:C_UseTool_cmake    = 'yes'
+let g:C_UseTool_doxygen  = 'yes'
+" call mmtemplates#config#Add('C', '<PATH_TO_PLUG>/c-support/templates/doxygen.templates', 'Doxygen', 'ntd')
+
+" vim-startify: {{{
+let g:startify_lists = [
+      \ { 'type': 'sessions'  },
+      \ { 'type': 'commands'  },
+      \ { 'type': 'bookmarks' },
+      \ { 'type': 'dir'       },
+      \ { 'type': 'files'     },
+  \ ]
+let g:startify_session_persistence = 1
+let g:startify_session_autoload = 1
+let g:startify_custom_header = 'GenerateStartifyCustomHeader()'
+
+" omnisharp
+let g:OmniSharp_server_path = '$OMNISHARP_PATH/omnisharp/OmniSharp.exe'
+
+" tags
+let g:gutentags_file_list_command = 'rg --files'
+" let g:gutentags_trace = 1
+
+" autosave views
+au bufwinleave *.* mkview
+au bufwinenter *.* silent! loadview
+
+" Decrease the time to wait for k after j in 'jk' in insert mode
+:autocmd InsertEnter * set timeoutlen=60
+:autocmd InsertLeave * set timeoutlen=500
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f')<CR>
+vnoremap <silent> # :call VisualSelection('b')<CR>
+
+" repeat macro on each line of selection
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+" move lines
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-Down> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+nnoremap <A-Up> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-Down> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+vnoremap <A-Up> :m '<-2<CR>gv=gv
+
+" vim-easy-align
+call SpaceVim#mapping#def('xmap', 'ga', '<Plug>(EasyAlign)', 'vim-easy-align', '')
+call SpaceVim#mapping#def('nmap', 'ga', '<Plug>(EasyAlign)', 'vim-easy-align', '')
+
+
+endfunction " }}}
+
+
+"
+" AFTER
+"
+
+function! myspacevim#after() abort " {{{
+
+
+" conceal
+setglobal conceallevel=2
+setglobal concealcursor=
+let g:indentLine_setConceal = 0
+
+" which wrap
+set whichwrap=
+
+" shada
+set shada+=%
+set shada-=h
+set shada+=r/tmp
+
+" Disable highlight when <esc> is pressed
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
+
+
+endfunction " }}}
+
+
+"
+" MISC
+"
+
+function! VisualSelection(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
+function! GenerateStartifyCustomHeader()
+  let headers = myspacevim#startify_custom_headers#get()
+  let end = len(headers) - 1
+  let rand = str2nr(system("shuf -n 1 -i 0-" . end))
+  return headers[rand] + startify#fortune#cowsay()
+endfunction

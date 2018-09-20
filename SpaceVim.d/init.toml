@@ -1,0 +1,228 @@
+[options]
+  bootstrap_before = 'myspacevim#before'
+  bootstrap_after = 'myspacevim#after'
+
+  # autocomplete_method = 'coc'
+  autocomplete_method = 'none'
+
+  colorscheme = "gruvbox"
+  colorscheme_bg = "dark"
+  background = "dark"
+  enable_guicolors = true
+  statusline_separator = "arrow"
+  statusline_inactive_separator = "arrow"
+
+  plugin_manager = 'dein'
+  automatic_update = 1
+
+  filemanager = 'vimfiler'
+  sidebar_width = 45
+  enable_vimfiler_welcome = 1
+  enable_vimfiler_filetypeicon = 1
+  enable_tabline_filetype_icon = 1
+
+  buffer_index_type = 1
+  windows_index_type = 0
+
+  enable_os_fileformat_icon = 1
+
+  statusline_unicode_symbols = 1
+  enable_statusline_display_mode = 0
+
+  realtime_leader_guide = 1
+
+  enable_neomake = true
+  lint_on_save = true
+  lint_on_the_fly = false
+
+  enable_debug = 1
+
+  windows_smartclose = 'sx'
+
+  project_rooter_automatically = 0
+
+  disabled_plugins = [
+    'java_getset.vim',
+    'javacomplete',
+    'vim-javacomplete',
+    'vim-javacomplete2',
+  ]
+
+  autocomplete_parens = false
+
+  hiddenfileinfo = 0
+
+[[custom_plugins]]
+  name = 'let-def/vimbufsync'
+
+[[custom_plugins]]
+  name = 'whonore/Coqtail'
+  depends = [
+    'let-def/vimbufsync',
+  ]
+
+# Causes circular syntax include if used together with layers lang#vue and lang#markdown.
+# [[custom_plugins]]
+#   name = 'digitaltoad/vim-pug'
+
+[[custom_plugins]]
+  name = 'junegunn/vim-easy-align'
+
+[[custom_plugins]]
+  name = 'blindFS/vim-taskwarrior'
+
+# [[custom_plugins]]
+#   name = 'simnalamburt/vim-mundo'
+
+# [[custom_plugins]]
+#   name = 'WolfgangMehner/c-support'
+
+[[custom_plugins]]
+  name = 'vim-latex/vim-latex'
+
+[[custom_plugins]]
+  name = 'ryanoasis/vim-devicons'
+  lazy = 1
+  depends = [
+    'Shougo/vimfiler.vim',
+    'Shougo/unite.vim',
+    'Shougo/denite.nvim',
+    'powerline/powerline',
+    'vim-airline/vim-airline',
+    'scrooloose/nerdtree',
+  ]
+
+# [[custom_plugins]]
+#   name = 'dansomething/vim-eclim'
+#   for = [
+#     'java',
+#     'xml',
+#   ]
+#   do = 'bash install.sh'
+
+[[custom_plugins]]
+  name = 'tweekmonster/exception.vim'
+
+
+[[layers]]
+  name = 'autocomplete'
+  auto-completion-return-key-behavior = "complete"
+  auto-completion-tab-key-behavior = "smart"
+  enable = false
+
+[[layers]]
+  name = 'debug'
+
+[[layers]]
+  name = 'default'
+
+[[layers]]
+  name = 'git'
+
+[[layers]]
+  name = 'github'
+
+[[layers]]
+  name = 'gtags'
+
+[[layers]]
+  name = 'sudo'
+
+[[layers]]
+  name = 'test'
+
+[[layers]]
+  name = 'tmux'
+
+[[layers]]
+  name = 'tools'
+
+[[layers]]
+  name = "lsp"
+  filetypes = [
+    'c',
+    'cpp',
+    'css',
+    'dockerfile',
+    # 'haskell',
+    'html',
+    'javascript',
+    'python',
+    'rust',
+    'sh',
+    'typescript',
+    'vue',
+  ]
+
+[[layers]]
+ name = 'lang#python'
+
+[[layers]]
+ name = 'lang#sh'
+
+# [[layers]]
+#   name = 'lang#assembly'
+#
+# [[layers]]
+#   name = 'lang#c'
+#
+# [[layers]]
+#   name = 'lang#cpp'
+#
+# [[layers]]
+#   name = 'lang#dockerfile'
+#
+# [[layers]]
+#   name = 'lang#elixir'
+#
+# [[layers]]
+#   name = 'lang#graphql'
+#
+[[layers]]
+  name = 'lang#haskell'
+#
+# [[layers]]
+#   name = 'lang#html'
+#
+# [[layers]]
+#   name = 'lang#idris'
+#
+# [[layers]]
+#   name = 'lang#javascript'
+#
+# [[layers]]
+#   name = 'lang#json'
+#
+# [[layers]]
+#   name = 'lang#latex'
+#
+# [[layers]]
+#   name = 'lang#markdown'
+#   listItemIndent = '2'
+#
+# [[layers]]
+#   name = 'lang#python'
+#
+# [[layers]]
+#   name = 'lang#rust'
+#
+# [[layers]]
+#   name = 'lang#sh'
+#
+# [[layers]]
+#   name = 'lang#sql'
+#
+# [[layers]]
+#   name = 'lang#toml'
+#
+# [[layers]]
+#   name = 'lang#typescript'
+#
+# [[layers]]
+#   name = 'lang#vim'
+#
+# [[layers]]
+#   name = 'lang#vue'
+#
+# [[layers]]
+#   name = 'lang#xml'
